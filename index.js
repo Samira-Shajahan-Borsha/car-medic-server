@@ -22,6 +22,8 @@ async function run() {
     try {
         const serviceCollection = client.db('carMedic').collection('services');
 
+        const orderCollection = client.db('carMedic').collection('orders');
+
         //get all services
         app.get('/services', async (req, res) => {
             const query = {};
@@ -33,12 +35,19 @@ async function run() {
         //get a specific service
         app.get('/service/:id', async (req, res) => {
             const id = req.params.id;
-            console.log(id);
 
             const query = { _id: new ObjectId(id) };
             const service = await serviceCollection.findOne(query);
-            console.log(service);
             res.send(service);
+        });
+
+        //post an order
+        app.post('/orders', async (req, res) => {
+            const order = req.body;
+            console.log(order);
+
+            const result = await orderCollection.insertOne(order);
+            res.send(result);
         })
     }
     finally {
