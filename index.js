@@ -65,6 +65,22 @@ async function run() {
             res.send(result);
         });
 
+        //update an order
+        app.patch('/orders/:id', async (req, res) => {
+            const id = req.params.id;
+            const status = req.body.status;
+            console.log(id);
+
+            const filter = { _id: new ObjectId(id) };
+            const updatedOrder = {
+                $set: {
+                    status: status
+                }
+            };
+            const result = await orderCollection.updateOne(filter, updatedOrder);
+            res.send(result);
+        })
+
         //delete an order
         app.delete('/orders/:id', async (req, res) => {
             const id = req.params.id;
