@@ -41,6 +41,9 @@ function verifyJWT(req, res, next) {
 
 async function run() {
     try {
+
+        client.connect();
+        
         const serviceCollection = client.db('carMedic').collection('services');
 
         const orderCollection = client.db('carMedic').collection('orders');
