@@ -43,7 +43,7 @@ async function run() {
     try {
 
         client.connect();
-        
+
         const serviceCollection = client.db('carMedic').collection('services');
 
         const orderCollection = client.db('carMedic').collection('orders');
@@ -59,7 +59,9 @@ async function run() {
         //get all services
         app.get('/services', async (req, res) => {
             const query = {};
-            const cursor = serviceCollection.find(query);
+            const order = req.query.order === 'asc' ? 1 : -1;
+            // console.log(order);
+            const cursor = serviceCollection.find(query).sort({ price: order });
             const services = await cursor.toArray();
             res.send(services);
         });
